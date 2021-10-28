@@ -1,0 +1,35 @@
+{
+  "name": "simple-rng-predictor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.ts",
+  "scripts": {
+    "start": "node dist/main.js",
+    "serve": "tsnd --respawn --no-notify --transpile-only src/main.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "task1": "tsc; node dist/main.js --mode='Lcg'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hmaravlad/simple-rng-predictor.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hmaravlad/simple-rng-predictor/issues"
+  },
+  "homepage": "https://github.com/hmaravlad/simple-rng-predictor#readme",
+  "dependencies": {
+    "eslint": "^7.32.0",
+    "eslint-plugin-import": "^2.25.2",
+    "install": "^0.13.0",
+    "ts-command-line-args": "^2.1.0",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.4.4"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "eslint-config-airbnb-typescript": "^14.0.1"
+  }
+}
