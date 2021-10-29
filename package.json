@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "main.ts",
+  "type": "module",
   "scripts": {
     "start": "node dist/main.js",
     "serve": "tsnd --respawn --no-notify --transpile-only src/main.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "task1": "tsc; node dist/main.js --mode='Lcg'"
+    "task1": "tsc; node --experimental-modules dist/main.js --mode='Lcg'",
+    "task2": "tsc; node --experimental-modules dist/main.js --mode='Mt'",
+    "task3": "tsc; node --experimental-modules dist/main.js --mode='BetterMt'"
   },
   "repository": {
     "type": "git",
@@ -20,14 +23,19 @@
   },
   "homepage": "https://github.com/hmaravlad/simple-rng-predictor#readme",
   "dependencies": {
+    "@stdlib/random-base-mt19937": "0.0.5",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.25.2",
     "install": "^0.13.0",
+    "mersenne-twister": "^1.1.0",
+    "node-fetch": "^3.0.0",
     "ts-command-line-args": "^2.1.0",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.4.4"
   },
   "devDependencies": {
+    "@types/mersenne-twister": "^1.1.2",
+    "@types/node-fetch": "^3.0.3",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "eslint-config-airbnb-typescript": "^14.0.1"
