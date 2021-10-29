@@ -19,7 +19,7 @@ export class LcgPredictor implements Predictor {
 
   constructor(private casino: Casino) { }
 
-  async init() {
+  async init(): Promise<void> {
     const x1 = (await this.casino.makeBet(100, 1)).realNumber;
     const x2 = (await this.casino.makeBet(100, 1)).realNumber;
     const x3 = (await this.casino.makeBet(100, 1)).realNumber;
