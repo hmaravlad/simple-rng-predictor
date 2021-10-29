@@ -1,6 +1,16 @@
 import { Casino } from 'src/casino';
 import { Predictor } from 'src/types/predictor';
 
+const hm = Math.pow(2, 31);
+
+const fromUnsigned = (n: number) => {
+  return n -= hm;
+};
+
+const toUnsigned = (n: number) => {
+  return n += hm;
+};
+
 export class LcgPredictor implements Predictor {
   private a = 0;
 
@@ -12,17 +22,28 @@ export class LcgPredictor implements Predictor {
 
   private lastX = 0;
 
+  private normalize = (n: number) => {
+    while (n < 0 || n > this.m) {
+      if (n < 0) {
+        n += this.m;
+      } else {
+        n -= this.m;
+      }
+    }
+    return n;
+  };
+
   private generate(lastX: number): number {
     const res = (lastX * this.a + this.c) % this.m;
-    return res >= this.hm ? (res | 0) : res;
+    return res;
   }
 
   constructor(private casino: Casino) { }
 
   async init(): Promise<void> {
-    const x1 = (await this.casino.makeBet(100, 1)).realNumber;
-    const x2 = (await this.casino.makeBet(100, 1)).realNumber;
-    const x3 = (await this.casino.makeBet(100, 1)).realNumber;
+    const x1 = toUnsigned((await this.casino.makeBet(100, 1)).realNumber);
+    const x2 = toUnsigned((await this.casino.makeBet(100, 1)).realNumber);
+    const x3 = toUnsigned((await this.casino.makeBet(100, 1)).realNumber);
 
     let i;
 
@@ -37,20 +58,16 @@ export class LcgPredictor implements Predictor {
     }
 
     let possibleCs: number[] = [];
-    for (let j = -10000000; j < 10000000; j++) {
-      possibleCs.push(x3 + j * this.m - x2 * this.a);
-      possibleCs.push(x2 + j * this.m - x1 * this.a);
-    }
+    possibleCs.push(this.normalize(x2 + possibleIs[0] * this.m - this.a * x1));
 
     possibleCs = possibleCs.filter(c => Number.isInteger(c));
 
     const numbers: number[] = [];
 
     for (let j = 0; j < 10; j++) {
-      const num = (await this.casino.makeBet(1, 1)).realNumber;
+      const num = toUnsigned((await this.casino.makeBet(1, 1)).realNumber);
       numbers.push(num);
     }
-
 
     let maxI = 0;
 
@@ -79,6 +96,6 @@ export class LcgPredictor implements Predictor {
   predict(): number {
     const x = this.generate(this.lastX);
     this.lastX = x;
-    return x;
+    return fromUnsigned(x);
   }
 }

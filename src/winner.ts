@@ -4,7 +4,7 @@ import { Predictor } from './types/predictor';
 const WINNING_MONEY = 1000000;
 
 export class Winner {
-  constructor(private casino: Casino) {}
+  constructor(private casino: Casino) { }
 
   async win(predictor: Predictor): Promise<string> {
     let message = 'unknown';
